@@ -55,6 +55,11 @@ export const getMetSearchResults = async query => {
   return { artworks };
 };
 
+export const getMetObjectDetails = async id => {
+  const response = await metApi.get(`/objects/${id}`);
+  return response.data;
+};
+
 // export const getMetSearchResults = async query => {
 //   const url = `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${encodeURIComponent(
 //     query
