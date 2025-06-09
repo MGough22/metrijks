@@ -1,0 +1,51 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100pt;
+  margin: 0;
+}
+
+.links-list {
+  display: flex;
+  justify-content: space-evenly;
+  font-weight: bold;
+  color: black;
+  list-style: none;
+  padding: 0;
+}
+
+.footer {
+  text-align: center;
+}
+
+.article-footer {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.loading-anim {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
