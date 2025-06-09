@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/exhibition" element={<Exhibition />} />
         <Route path="/" element={<ArtworkList searchTerm={searchTerm} />} />
-        <Route path="/artwork/:source/:id" element={<ArtworkDetail />} />
+        <Route path="/artworks/:source/:id" element={<ArtworkDetail />} />
       </Routes>
       <Footer />
     </>

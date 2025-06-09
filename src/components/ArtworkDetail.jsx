@@ -1,41 +1,18 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getMetObjectDetails } from "../apis/met";
+import { getRijksObjectDetails } from "../apis/rijks";
 import { useCollection } from "../hooks/useCollection";
 import { hatch } from "ldrs";
 
 hatch.register();
 
 export const ArtworkDetail = () => {
-  // const { id } = useParams();
   const { source, id } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCollection, collection } = useCollection();
-
-  //   const isSaved = collection.some(
-  //     item => item.id === artwork.objectID && item.source === "met"
-  //   );
-
-  const isSaved = collection.some(
-    item => item.id === artwork?.objectID && item.source === "met"
-  );
-
-  //   useEffect(() => {
-  //     const fetchArtwork = async () => {
-  //       try {
-  //         const data = await getMetObjectDetails(id);
-  //         setArtwork(data);
-  //       } catch (err) {
-  //         setError("Failed to fetch artwork");
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchArtwork();
-  //   }, [id]);
 
   useEffect(() => {
     const fetchArtwork = async () => {
@@ -43,6 +20,8 @@ export const ArtworkDetail = () => {
         let data;
         if (source === "met") {
           data = await getMetObjectDetails(id);
+        } else if (source === "rijks") {
+          data = await getRijksObjectDetails(id);
         } else {
           throw new Error("Unsupported source: " + source);
         }
@@ -66,18 +45,25 @@ export const ArtworkDetail = () => {
   if (error) return <p>{error}</p>;
   if (!artwork) return <p>No artwork found</p>;
 
+  const isSaved = collection.some(
+    item => item.id === artwork.objectID && item.source === artwork.source
+  );
+
+  console.log("artwork in detail", artwork);
+  console.log("offiste link", artwork.objectURL);
+
   return (
     <div className="artwork-detail">
-      <img src={artwork.primaryImage} alt={artwork.title} />
+      <img src={artwork.image} alt={artwork.title} />
       <h2>{artwork.title}</h2>
       {!isSaved ? (
         <button
           onClick={() =>
             addToCollection({
               id: artwork.objectID,
-              source: "met",
+              source: artwork.source,
               title: artwork.title,
-              image: artwork.primaryImageSmall,
+              image: artwork.image,
             })
           }
         >
@@ -103,7 +89,7 @@ export const ArtworkDetail = () => {
       </p>
       <p>
         <a href={artwork.objectURL} target="_blank" rel="noreferrer">
-          View on MET site
+          View on museum site
         </a>
       </p>
     </div>

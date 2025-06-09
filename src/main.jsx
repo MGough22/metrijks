@@ -4,8 +4,12 @@ import { BrowserRouter } from "react-router";
 import "./index.css";
 import App from "./App.jsx";
 
+import { SearchProvider } from "./context/SearchContext";
+
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <App />
+    <SearchProvider>
+      <App />
+    </SearchProvider>
   </BrowserRouter>
 );

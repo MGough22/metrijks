@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { getMetSearchResults } from "../apis/met";
+import { getRijksSearchResults } from "../apis/rijks";
+import { useSearchContext } from "../context/SearchContext";
 import ArtworkCard from "./ArtworkCard";
 import { hatch } from "ldrs";
 
 hatch.register();
 
-export default function ArtworkList({ searchTerm }) {
-  const [artworks, setArtworks] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+export default function ArtworkList() {
+  const { searchTerm, searchSource } = useSearchContext();
+  const [artworks, setArtworks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchArtworks = async () => {
+    if (!searchTerm) return;
+
+    setIsLoading(true);
+    setError(null);
     try {
-      setIsLoading(true);
-      const response = searchTerm
-        ? await getMetSearchResults(searchTerm)
-        : { artworks: [] };
-      setArtworks(response.artworks);
-    } catch (error) {
-      setError(error.message);
+      const result =
+        searchSource === "met"
+          ? await getMetSearchResults(searchTerm)
+          : await getRijksSearchResults(searchTerm);
+
+      setArtworks(result.artworks);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -26,7 +34,7 @@ export default function ArtworkList({ searchTerm }) {
 
   useEffect(() => {
     fetchArtworks();
-  }, [searchTerm]);
+  }, [searchTerm, searchSource]);
 
   if (isLoading)
     return (

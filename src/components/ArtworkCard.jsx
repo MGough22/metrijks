@@ -8,7 +8,7 @@ export default function ArtworkCard({ artwork }) {
 
   return (
     <div className="artwork-card">
-      <Link to={`/artwork/met/${artwork.id}`}>
+      <Link to={`/artworks/${artwork.source}/${artwork.id}`}>
         <img src={artwork.image} alt={`Image of ${artwork.title}`} />
         <p className="artwork-title">{artwork.title}</p>
         <hr />
