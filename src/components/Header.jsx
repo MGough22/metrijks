@@ -8,10 +8,10 @@ export const Header = () => {
       <nav>
         <ul className="links-list">
           <li>
-            <Link to="/exhibition">My Exhibition</Link>
+            <Link to="/">Search</Link>
           </li>
           <li>
-            <Link to="/">Search</Link>
+            <Link to="/exhibition">My Exhibition</Link>
           </li>
         </ul>
       </nav>
