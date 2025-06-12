@@ -4,6 +4,8 @@ import { Link } from "react-router";
 export const Exhibition = () => {
   const { collection, removeFromCollection } = useCollection();
 
+  console.log("collection in Exhibition", collection);
+
   if (collection.length === 0) {
     return <p>Your exhibition is currently empty.</p>;
   }
@@ -12,7 +14,7 @@ export const Exhibition = () => {
     <div className="exhibition-gallery">
       {collection.map(item => (
         <div className="exhibition-item" key={`${item.source}-${item.id}`}>
-          <Link to={`/artwork/${item.source}/${item.id}`}>
+          <Link to={`/artworks/${item.source}/${item.id}`}>
             <img src={item.image} alt={item.title} />
             <p>{item.title}</p>
           </Link>

@@ -46,10 +46,14 @@ export const ArtworkDetail = () => {
   if (!artwork) return <p>No artwork found</p>;
 
   const isSaved = collection.some(
-    item => item.id === artwork.objectID && item.source === artwork.source
+    item =>
+      item.id === (artwork.id ?? artwork.objectID) &&
+      item.source === artwork.source
   );
 
-  console.log("artwork in detail", artwork);
+  console.log("detail artwork", artwork);
+  console.log("detail artwork id", artwork.objectID);
+  console.log("detail artwork source", artwork.source);
   console.log("offiste link", artwork.objectURL);
 
   return (
@@ -60,7 +64,7 @@ export const ArtworkDetail = () => {
         <button
           onClick={() =>
             addToCollection({
-              id: artwork.objectID,
+              id: artwork.id ?? artwork.objectID,
               source: artwork.source,
               title: artwork.title,
               image: artwork.image,
