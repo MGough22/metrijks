@@ -4,18 +4,20 @@ const metApi = axios.create({
   baseURL: "https://collectionapi.metmuseum.org/public/collection/v1",
 });
 
-export const getMetSearchResults = async query => {
+export const getMetSearchResults = async (query, page = 1, pageSize = 20) => {
   const idRes = await metApi.get(`/search?hasImages=true&q=${query}`);
+  const allIds = idRes.data.objectIDs || [];
 
-  const ids = idRes.data.objectIDs?.slice(0, 20) || [];
-
-  if (ids.length === 0) {
+  const total = allIds.length;
+  if (total === 0) {
     console.warn("No results for", query);
-    return { artworks: [] };
+    return { artworks: [], total };
   }
 
-  const detailPromises = ids.map(id => metApi.get(`/objects/${id}`));
+  const startIndex = (page - 1) * pageSize;
+  const paginatedIds = allIds.slice(startIndex, startIndex + pageSize);
 
+  const detailPromises = paginatedIds.map(id => metApi.get(`/objects/${id}`));
   const detailResults = await Promise.allSettled(detailPromises);
 
   const artworks = detailResults
@@ -36,13 +38,13 @@ export const getMetSearchResults = async query => {
       };
     });
 
-  return { artworks };
+  return {
+    artworks,
+    total,
+    page,
+    totalPages: Math.ceil(total / pageSize),
+  };
 };
-
-// export const getMetObjectDetails = async id => {
-//   const response = await metApi.get(`/objects/${id}`);
-//   return response.data;
-// };
 
 export const getMetObjectDetails = async id => {
   const res = await metApi.get(`/objects/${id}`);
