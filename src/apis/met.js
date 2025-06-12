@@ -30,6 +30,9 @@ export const getMetSearchResults = async query => {
         artist: data.artistDisplayName || "Unknown",
         image: data.primaryImageSmall,
         source: "met",
+        objectURL:
+          data.objectURL ||
+          `https://www.metmuseum.org/art/collection/search/${data.objectID}`,
       };
     });
 
