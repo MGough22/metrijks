@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "react-router";
 import { getMetSearchResults } from "../apis/met";
 import { getRijksSearchResults } from "../apis/rijks";
 import { useSearchContext } from "../context/SearchContext";
@@ -13,9 +14,15 @@ export default function ArtworkList() {
   const [artworks, setArtworks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const [sortOrder, setSortOrder] = useState("title-asc");
   const [sortOrder, setSortOrder] = useState("relevance");
   const [sourceFilter, setSourceFilter] = useState("");
+
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const pageSize = 20;
 
   const fetchArtworks = async () => {
     if (!searchTerm) return;
@@ -25,15 +32,29 @@ export default function ArtworkList() {
     try {
       const result =
         searchSource === "met"
-          ? await getMetSearchResults(searchTerm)
-          : await getRijksSearchResults(searchTerm);
+          ? await getMetSearchResults(searchTerm, currentPage, pageSize)
+          : await getRijksSearchResults(searchTerm, currentPage, pageSize);
 
       setArtworks(result.artworks);
+      setTotalPages(result.totalPages || 1);
+      setTotalResults(result.total || result.artworks.length);
     } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const goToPage = page => {
+    setSearchParams({ page: String(page) });
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) goToPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) goToPage(currentPage + 1);
   };
 
   const filteredAndSorted = useMemo(() => {
@@ -43,16 +64,10 @@ export default function ArtworkList() {
       filtered = filtered.filter(art => art.source === sourceFilter);
     }
 
-    // if (sortOrder === "title-asc") {
-    //   filtered.sort((a, b) => a.title.localeCompare(b.title));
-    // } else if (sortOrder === "title-desc") {
-    //   filtered.sort((a, b) => b.title.localeCompare(a.title));
-    // }
     if (sortOrder === "title-asc") {
       filtered.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortOrder === "title-desc") {
       filtered.sort((a, b) => b.title.localeCompare(a.title));
-    } else if (sortOrder === "relevance") {
     }
 
     return filtered;
@@ -60,7 +75,7 @@ export default function ArtworkList() {
 
   useEffect(() => {
     fetchArtworks();
-  }, [searchTerm, searchSource]);
+  }, [searchTerm, searchSource, currentPage]);
 
   if (isLoading)
     return (
@@ -68,21 +83,9 @@ export default function ArtworkList() {
         <l-hatch size="150" stroke="4" speed="3.5" color="black"></l-hatch>
       </div>
     );
-  console.log("here1");
   if (error) return <p>Error: {error}</p>;
   if (!artworks || artworks.length === 0) return <p>No artworks found.</p>;
-  console.log("here3");
 
-  // return (
-  //   <div className="artwork-collection">
-  //     {artworks.map(artwork => (
-  //       <ArtworkCard
-  //         key={`${artwork.source}-${artwork.id}`}
-  //         artwork={artwork}
-  //       />
-  //     ))}
-  //   </div>
-  // );
   return (
     <div className="artwork-results">
       <FilterPanel
@@ -90,7 +93,7 @@ export default function ArtworkList() {
         onSortChange={setSortOrder}
         selectedSource={sourceFilter}
         onSourceFilterChange={setSourceFilter}
-        enableSourceFilter={false} // source already selected via radio buttons
+        enableSourceFilter={false}
       />
 
       <div className="artwork-collection">
@@ -100,6 +103,18 @@ export default function ArtworkList() {
             artwork={artwork}
           />
         ))}
+      </div>
+
+      <div className="pagination-controls">
+        <button onClick={handlePrev} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages} ({totalResults} artworks)
+        </span>
+        <button onClick={handleNext} disabled={currentPage === totalPages}>
+          Next
+        </button>
       </div>
     </div>
   );
