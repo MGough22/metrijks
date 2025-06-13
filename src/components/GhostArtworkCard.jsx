@@ -1,7 +1,7 @@
 export default function GhostArtworkCard({ opacity = 0 }) {
   return (
     <div
-      className="bg-white border border-black-300 rounded-lg overflow-hidden h-[22rem] w-full transition-transform duration-1000"
+      className="bg-white border border-black/70 rounded-lg overflow-hidden transition-transform duration-1000 w-full aspect-[6/5]"
       style={{ opacity }}
     />
   );
