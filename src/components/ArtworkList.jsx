@@ -100,7 +100,7 @@ export default function ArtworkList() {
         {filteredAndSorted.map((artwork, index) => (
           <div
             className="opacity-0 animate-fade-in"
-            style={{ animationDelay: `${index * 0.05}s` }}
+            style={{ animationDelay: `${index * 0.1}s` }} // 0.05 is a more fluid animation.
           >
             <ArtworkCard
               key={`${artwork.source}-${artwork.id}`}
