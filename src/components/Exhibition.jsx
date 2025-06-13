@@ -60,9 +60,10 @@ export const Exhibition = () => {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredAndSorted.map(item => (
+        {filteredAndSorted.map((item, index) => (
           <div
-            className="bg-white rounded-lg overflow-hidden transition-transform transform hover:scale-[1.02] duration-200"
+            className="bg-white rounded-lg overflow-hidden transition-transform transform hover:scale-[1.02] duration-200 opacity-0 animate-fade-in"
+            style={{ animationDelay: `${index * 0.05}s` }}
             key={`${item.source}-${item.id}`}
           >
             <Link to={`/artworks/${item.source}/${item.id}`}>

@@ -97,11 +97,16 @@ export default function ArtworkList() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredAndSorted.map(artwork => (
-          <ArtworkCard
-            key={`${artwork.source}-${artwork.id}`}
-            artwork={artwork}
-          />
+        {filteredAndSorted.map((artwork, index) => (
+          <div
+            className="opacity-0 animate-fade-in"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
+            <ArtworkCard
+              key={`${artwork.source}-${artwork.id}`}
+              artwork={artwork}
+            />
+          </div>
         ))}
       </div>
       <div className="pagination-controls flex flex-col items-center gap-4 mt-8 text-sm text-gray-800">

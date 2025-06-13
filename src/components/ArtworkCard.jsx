@@ -3,9 +3,6 @@ import { Link } from "react-router";
 export default function ArtworkCard({ artwork }) {
   const fallback = "https://www.freeiconspng.com/uploads/no-image-icon-6.png";
   return (
-    // <div className="artwork-card">
-    // <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-    //  <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-[1.02]">
     <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:bg-gray-50 hover:border-gray-300 border border-transparent">
       <Link to={`/artworks/${artwork.source}/${artwork.id}`}>
         <img
@@ -13,7 +10,7 @@ export default function ArtworkCard({ artwork }) {
           alt={`Image of ${artwork.title}`}
           className="w-full h-64 object-cover"
           onError={e => {
-            e.target.onerror = null; // prevents infinite loop
+            e.target.onerror = null;
             e.target.src = fallback;
           }}
         />
