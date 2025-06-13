@@ -9,17 +9,22 @@ import { Exhibition } from "./components/Exhibition";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
+
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <SearchBar setSearchTerm={setSearchTerm} />
-      <Routes>
-        <Route path="/exhibition" element={<Exhibition />} />
-        <Route path="/" element={<ArtworkList searchTerm={searchTerm} />} />
-        <Route path="/artworks/:source/:id" element={<ArtworkDetail />} />
-      </Routes>
+
+      <main className="flex-grow">
+        <SearchBar setSearchTerm={setSearchTerm} />
+        <Routes>
+          <Route path="/exhibition" element={<Exhibition />} />
+          <Route path="/" element={<ArtworkList searchTerm={searchTerm} />} />
+          <Route path="/artworks/:source/:id" element={<ArtworkDetail />} />
+        </Routes>
+      </main>
+
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -34,15 +34,23 @@ export const Exhibition = () => {
   }, [collection, collectionSearchTerm, sourceFilter, sortOrder]);
 
   if (collection.length === 0) {
-    return <p>Your exhibition is currently empty.</p>;
+    return (
+      <p className="text-center mt-12 text-gray-500">
+        Your exhibition is currently empty.
+      </p>
+    );
   }
 
   if (filteredAndSorted.length === 0) {
-    return <p>No artworks match your current search.</p>;
+    return (
+      <p className="text-center mt-12 text-gray-500">
+        No artworks match your current search.
+      </p>
+    );
   }
 
   return (
-    <div className="exhibition-container">
+    <div className="p-4 space-y-6">
       <FilterPanel
         selectedSort={sortOrder}
         onSortChange={setSortOrder}
@@ -51,16 +59,30 @@ export const Exhibition = () => {
         enableSourceFilter={true}
       />
 
-      <div className="exhibition-gallery">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredAndSorted.map(item => (
-          <div className="exhibition-item" key={`${item.source}-${item.id}`}>
+          <div
+            className="bg-white rounded-lg overflow-hidden transition-transform transform hover:scale-[1.02] duration-200"
+            key={`${item.source}-${item.id}`}
+          >
             <Link to={`/artworks/${item.source}/${item.id}`}>
-              <img src={item.image} alt={item.title} />
-              <p>{item.title}</p>
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-2">
+                <p className="font-medium text-sm truncate">{item.title}</p>
+              </div>
             </Link>
-            <button onClick={() => removeFromCollection(item.id, item.source)}>
-              Remove
-            </button>
+            <div className="px-2 pb-3">
+              <button
+                onClick={() => removeFromCollection(item.id, item.source)}
+                className="text-xs text-red-500 hover:underline"
+              >
+                Remove
+              </button>
+            </div>
           </div>
         ))}
       </div>

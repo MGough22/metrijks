@@ -26,6 +26,7 @@ export default function SearchBar() {
     } else {
       setSearchTerm(trimmed);
     }
+    setQuery("");
   };
 
   const handleReset = () => {
@@ -38,7 +39,10 @@ export default function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full flex flex-col md:flex-row items-center gap-4 p-4"
+    >
       <input
         type="text"
         placeholder={
@@ -48,36 +52,48 @@ export default function SearchBar() {
         }
         value={query}
         onChange={e => setQuery(e.target.value)}
+        className="flex-1 px-4 py-2 rounded-full border border-black bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
       />
 
       {!isOnExhibitionPage && (
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="met"
-              checked={searchSource === "met"}
-              onChange={e => setSearchSource(e.target.value)}
-            />
-            MET
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              value="rijks"
-              checked={searchSource === "rijks"}
-              onChange={e => setSearchSource(e.target.value)}
-            />
-            Rijksmuseum
-          </label>
+        <div className="flex gap-2 items-center">
+          {[
+            { label: "MET", value: "met" },
+            { label: "Rijks", value: "rijks" },
+          ].map(opt => {
+            const isActive = searchSource === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setSearchSource(opt.value)}
+                className={`px-3 py-1 rounded-full text-sm border transition-colors duration-200 focus:outline-none
+                  ${
+                    isActive
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-black border-black hover:bg-gray-100"
+                  }`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
         </div>
       )}
 
-      <button type="submit">Search</button>
+      <button
+        type="submit"
+        className="px-4 py-2 rounded-full border border-black text-black hover:bg-black hover:text-white transition-colors duration-200"
+      >
+        Search
+      </button>
 
       {isOnExhibitionPage && collectionSearchTerm && (
-        <button type="button" onClick={handleReset}>
+        <button
+          type="button"
+          onClick={handleReset}
+          className="px-4 py-2 rounded-full border border-black text-black hover:bg-black hover:text-white transition-colors duration-200"
+        >
           Reset
         </button>
       )}
