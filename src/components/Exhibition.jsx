@@ -53,7 +53,7 @@ export const Exhibition = () => {
 
       {filteredAndSorted.length === 0 ? (
         <p className="text-center mt-12 text-gray-500">
-          // No artworks match your current search. //{" "}
+          No artworks match your current search.
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
