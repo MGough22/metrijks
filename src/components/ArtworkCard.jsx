@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 export default function ArtworkCard({ artwork }) {
+  const fallback = "https://www.freeiconspng.com/uploads/no-image-icon-6.png";
   return (
     // <div className="artwork-card">
     // <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -11,6 +12,10 @@ export default function ArtworkCard({ artwork }) {
           src={artwork.image}
           alt={`Image of ${artwork.title}`}
           className="w-full h-64 object-cover"
+          onError={e => {
+            e.target.onerror = null; // prevents infinite loop
+            e.target.src = fallback;
+          }}
         />
         <div className="p-4">
           <h3 className="text-lg font-semibold mb-1">{artwork.title}</h3>
