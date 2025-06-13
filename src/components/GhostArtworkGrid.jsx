@@ -22,7 +22,7 @@ export default function GhostArtworkGrid() {
   useEffect(() => {
     const animate = timestamp => {
       if (!startTimeRef.current) startTimeRef.current = timestamp;
-      const elapsed = (timestamp - startTimeRef.current) / 1000;
+      const elapsed = (timestamp - startTimeRef.current) / 800;
 
       const newOpacities = offsets.current.map((offset, i) => {
         const sine = Math.sin(elapsed * frequencies.current[i] + offset);
