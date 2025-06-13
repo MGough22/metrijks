@@ -51,10 +51,10 @@ export const ArtworkDetail = () => {
       item.source === artwork.source
   );
 
-  console.log("detail artwork", artwork);
-  console.log("detail artwork id", artwork.objectID);
-  console.log("detail artwork source", artwork.source);
-  console.log("offiste link", artwork.objectURL);
+  // console.log("detail artwork", artwork);
+  // console.log("detail artwork id", artwork.objectID);
+  // console.log("detail artwork source", artwork.source);
+  // console.log("offiste link", artwork.objectURL);
 
   return (
     <div className="artwork-detail">

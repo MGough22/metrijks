@@ -115,6 +115,23 @@ export default function ArtworkList() {
         <button onClick={handleNext} disabled={currentPage === totalPages}>
           Next
         </button>
+        {totalPages > 1 && (
+          <div className="jump-to-page">
+            <label>
+              Jump to page:{" "}
+              <select
+                value={currentPage}
+                onChange={e => goToPage(Number(e.target.value))}
+              >
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
       </div>
     </div>
   );
