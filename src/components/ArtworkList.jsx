@@ -87,7 +87,7 @@ export default function ArtworkList() {
   if (!artworks || artworks.length === 0) return <p>No artworks found.</p>;
 
   return (
-    <div className="artwork-results">
+    <div className="artwork-results p-4 space-y-8">
       <FilterPanel
         selectedSort={sortOrder}
         onSortChange={setSortOrder}
@@ -96,7 +96,7 @@ export default function ArtworkList() {
         enableSourceFilter={false}
       />
 
-      <div className="artwork-collection">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredAndSorted.map(artwork => (
           <ArtworkCard
             key={`${artwork.source}-${artwork.id}`}
@@ -105,23 +105,35 @@ export default function ArtworkList() {
         ))}
       </div>
 
-      <div className="pagination-controls">
-        <button onClick={handlePrev} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages} ({totalResults} artworks)
-        </span>
-        <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
-        </button>
+      <div className="pagination-controls flex flex-col items-center gap-2">
+        <div>
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="mx-2">
+            Page {currentPage} of {totalPages} ({totalResults} artworks)
+          </span>
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+
         {totalPages > 1 && (
           <div className="jump-to-page">
-            <label>
+            <label className="text-sm">
               Jump to page:{" "}
               <select
                 value={currentPage}
                 onChange={e => goToPage(Number(e.target.value))}
+                className="ml-2 border border-gray-300 rounded"
               >
                 {Array.from({ length: totalPages }, (_, i) => (
                   <option key={i + 1} value={i + 1}>

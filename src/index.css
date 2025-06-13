@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -20,23 +22,9 @@ a {
   margin: 0;
 }
 
-/* .artwork-collection {
-  display: flex;
-  justify-content: space-evenly;
-  font-weight: bold;
-  color: black;
-  list-style: none;
-  padding: 0;
-} */
-
 .footer {
   text-align: center;
 }
-
-/* .article-footer {
-  display: flex;
-  gap: 10px;
-} */
 
 button {
   all: unset;
