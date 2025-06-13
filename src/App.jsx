@@ -24,5 +24,3 @@ function App() {
 }
 
 export default App;
-
-// <Route path="/artwork/met/:id" element={<ArtworkDetail />} />

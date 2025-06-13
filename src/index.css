@@ -20,23 +20,23 @@ a {
   margin: 0;
 }
 
-.links-list {
+/* .artwork-collection {
   display: flex;
   justify-content: space-evenly;
   font-weight: bold;
   color: black;
   list-style: none;
   padding: 0;
-}
+} */
 
 .footer {
   text-align: center;
 }
 
-.article-footer {
+/* .article-footer {
   display: flex;
   gap: 10px;
-}
+} */
 
 button {
   all: unset;
