@@ -104,44 +104,49 @@ export default function ArtworkList() {
           />
         ))}
       </div>
-
-      <div className="pagination-controls flex flex-col items-center gap-2">
-        <div>
+      <div className="pagination-controls flex flex-col items-center gap-4 mt-8 text-sm text-gray-800">
+        <div className="flex items-center space-x-4">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
-            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            className="px-4 py-1.5 border border-black rounded-full transition-colors duration-200 disabled:opacity-30 hover:bg-black hover:text-white"
           >
             Previous
           </button>
-          <span className="mx-2">
-            Page {currentPage} of {totalPages} ({totalResults} artworks)
+
+          <span className="tracking-wide">
+            Page <span className="font-semibold">{currentPage}</span> of{" "}
+            <span className="font-semibold">{totalPages}</span> ({totalResults}{" "}
+            artworks)
           </span>
+
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            className="px-4 py-1.5 border border-black rounded-full transition-colors duration-200 disabled:opacity-30 hover:bg-black hover:text-white"
           >
             Next
           </button>
         </div>
 
         {totalPages > 1 && (
-          <div className="jump-to-page">
-            <label className="text-sm">
-              Jump to page:{" "}
-              <select
-                value={currentPage}
-                onChange={e => goToPage(Number(e.target.value))}
-                className="ml-2 border border-gray-300 rounded"
-              >
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
+          <div className="jump-to-page flex items-center gap-2">
+            <label htmlFor="jump" className="text-gray-600">
+              Jump to page:
             </label>
+            <select
+              id="jump"
+              value={currentPage}
+              onChange={e => goToPage(Number(e.target.value))}
+              // className="px-3 py-1 border border-black rounded focus:outline-none focus:ring-1 focus:ring-black bg-white"
+              className="px-3 py-1 border border-black rounded bg-white text-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black"
+            >
+              {Array.from({ length: totalPages }, (_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
           </div>
         )}
       </div>

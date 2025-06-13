@@ -1,21 +1,43 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+
 export const Header = () => {
+  const location = useLocation();
+  const isActive = path => location.pathname === path;
+
   return (
-    <>
+    <header className="flex flex-col items-center py-6">
       <Link to="/">
-        <h1 className="main-title">METRIJKS</h1>
+        <h1 className="text-4xl font-bold tracking-wide text-black hover:opacity-80 transition-opacity">
+          METRIJKS
+        </h1>
       </Link>
-      <nav>
-        <ul className="links-list">
+
+      <nav className="mt-4">
+        <ul className="flex space-x-6 text-sm font-medium uppercase tracking-wider text-gray-700">
           <li>
-            <Link to="/">Search APIs</Link>
+            <Link
+              to="/"
+              className={`hover:text-black transition-colors ${
+                isActive("/") ? "underline underline-offset-4" : ""
+              }`}
+            >
+              Search APIs
+            </Link>
           </li>
           <li>
-            <Link to="/exhibition">View & Search your Exhibition</Link>
+            <Link
+              to="/exhibition"
+              className={`hover:text-black transition-colors ${
+                isActive("/exhibition") ? "underline underline-offset-4" : ""
+              }`}
+            >
+              View Exhibition
+            </Link>
           </li>
         </ul>
       </nav>
-      <hr></hr>
-    </>
+
+      <hr className="mt-6 w-full border-t border-gray-300" />
+    </header>
   );
 };
