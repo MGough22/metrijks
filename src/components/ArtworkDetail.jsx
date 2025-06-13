@@ -58,7 +58,7 @@ export const ArtworkDetail = () => {
         <img
           src={artwork.image}
           alt={artwork.title}
-          className="w-full max-h-[750px] object-contain border border-gray-200"
+          className="w-full max-h-[750px] object-contain border border-gray-200 opacity-0 animate-fade-in"
         />
         <button
           onClick={() => navigate(-1)}
