@@ -93,13 +93,23 @@ export default function ArtworkList() {
 
   return (
     <div className="artwork-results p-4 space-y-8">
-      <FilterPanel
-        selectedSort={sortOrder}
-        onSortChange={setSortOrder}
-        selectedSource={sourceFilter}
-        onSourceFilterChange={setSourceFilter}
-        enableSourceFilter={false}
-      />
+      <div className="flex flex-wrap items-start gap-4 mb-2 px-1">
+        <div className="shrink-0">
+          <FilterPanel
+            selectedSort={sortOrder}
+            onSortChange={setSortOrder}
+            selectedSource={sourceFilter}
+            onSourceFilterChange={setSourceFilter}
+            enableSourceFilter={false}
+          />
+        </div>
+        {searchTerm && (
+          <p className="text-sm text-gray-600 italic mt-1.5">
+            Showing results for:{" "}
+            <span className="font-medium">{searchTerm}</span>
+          </p>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredAndSorted.map((artwork, index) => (

@@ -87,6 +87,12 @@ export const Exhibition = () => {
           </div>
         ))}
       </div>
+      {collectionSearchTerm && (
+        <p className="text-sm text-gray-600 italic text-center mx-auto">
+          Showing results for:{" "}
+          <span className="font-medium">{collectionSearchTerm}</span>
+        </p>
+      )}
     </div>
   );
 };
