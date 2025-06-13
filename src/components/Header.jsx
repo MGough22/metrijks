@@ -1,14 +1,22 @@
 import { Link, useLocation } from "react-router";
+import { useSearchContext } from "../context/SearchContext";
 
 export const Header = () => {
   const location = useLocation();
   const isActive = path => location.pathname === path;
+  const { setSearchTerm } = useSearchContext();
 
   return (
     <header className="flex flex-col items-center py-6">
-      <Link to="/">
-        <h1 className="text-4xl font-bold tracking-wide text-black hover:opacity-80 transition-opacity">
+      <Link
+        to="/"
+        onClick={() => {
+          setSearchTerm("");
+        }}
+      >
+        <h1 className="text-4xl font-bold tracking-wide text-black relative group">
           METRIJKS
+          <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full" />
         </h1>
       </Link>
 

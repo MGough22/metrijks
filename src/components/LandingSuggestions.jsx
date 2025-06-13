@@ -24,7 +24,7 @@ export default function LandingSuggestions({ onSelect }) {
         }`}
       >
         <h1 className="text-3xl font-semibold tracking-tight text-black">
-          Welcome to METRIJKS
+          Welcome to <span className="tracking-wide">METRIJKS</span>
         </h1>
         <p className="text-sm text-gray-700 leading-relaxed">
           Discover and curate your own virtual exhibition from two of the
