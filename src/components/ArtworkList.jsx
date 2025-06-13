@@ -75,6 +75,15 @@ export default function ArtworkList() {
   }, [artworks, sortOrder, sourceFilter]);
 
   useEffect(() => {
+    // Resets to page 1 of the results if searchTerm or searchSource changes
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("page", "1");
+      return newParams;
+    });
+  }, [searchTerm, searchSource]);
+
+  useEffect(() => {
     fetchArtworks();
   }, [searchTerm, searchSource, currentPage]);
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "react-router";
 import { useSearchContext } from "../context/SearchContext";
+import { useNavigate } from "react-router";
 
 export default function SearchBar() {
   const {
@@ -10,6 +11,8 @@ export default function SearchBar() {
     setCollectionSearchTerm,
     collectionSearchTerm,
   } = useSearchContext();
+
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isOnExhibitionPage = location.pathname === "/exhibition";
@@ -25,7 +28,11 @@ export default function SearchBar() {
       setCollectionSearchTerm(trimmed);
     } else {
       setSearchTerm(trimmed);
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
     }
+
     setQuery("");
   };
 
