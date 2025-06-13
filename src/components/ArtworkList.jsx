@@ -5,12 +5,13 @@ import { getRijksSearchResults } from "../apis/rijks";
 import { useSearchContext } from "../context/SearchContext";
 import FilterPanel from "../components/FilterPanel";
 import ArtworkCard from "./ArtworkCard";
+import LandingSuggestions from "./LandingSuggestions";
 import { hatch } from "ldrs";
 
 hatch.register();
 
 export default function ArtworkList() {
-  const { searchTerm, searchSource } = useSearchContext();
+  const { searchTerm, searchSource, setSearchTerm } = useSearchContext();
   const [artworks, setArtworks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -76,6 +77,10 @@ export default function ArtworkList() {
   useEffect(() => {
     fetchArtworks();
   }, [searchTerm, searchSource, currentPage]);
+
+  if (!searchTerm) {
+    return <LandingSuggestions onSelect={term => setSearchTerm(term)} />;
+  }
 
   if (isLoading)
     return (
