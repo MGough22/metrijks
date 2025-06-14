@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useSearchContext } from "../context/SearchContext";
-import { useNavigate } from "react-router";
 
 export default function SearchBar() {
   const {
@@ -13,7 +12,6 @@ export default function SearchBar() {
   } = useSearchContext();
 
   const navigate = useNavigate();
-
   const location = useLocation();
   const isOnExhibitionPage = location.pathname === "/exhibition";
 
@@ -48,7 +46,7 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full flex flex-col md:flex-row items-center gap-4 p-4"
+      className="w-full flex flex-row flex-nowrap items-stretch gap-2 overflow-x-auto p-4"
     >
       <input
         type="text"
@@ -59,7 +57,7 @@ export default function SearchBar() {
         }
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="flex-1 px-4 py-2 rounded-full border border-black bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
+        className="flex-1 min-w-0 px-4 py-2 rounded-full border border-black bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
       />
 
       {!isOnExhibitionPage && (
