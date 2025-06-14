@@ -19,9 +19,14 @@ export default function LandingSuggestions({ onSelect }) {
 
       {/* Welcome information */}
       <div
-        className={`max-w-xl mx-auto border border-black rounded-xl p-10 bg-white/80 backdrop-blur-md shadow-md text-center space-y-6 z-10 transition-opacity duration-2000 ${
-          visible ? "opacity-90" : "opacity-0"
+        className={`max-w-xl mx-auto border border-black rounded-xl p-10 shadow-md text-center space-y-6 z-10 transition-opacity duration-2000 ${
+          visible ? "opacity-100" : "opacity-0"
         }`}
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse at center, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.85) 40%, rgba(255,255,255,0) 100%)",
+          backdropFilter: "blur(800px)",
+        }}
       >
         <h1 className="text-3xl font-semibold tracking-tight text-black">
           Welcome to <span className="tracking-wide">METRIJKS</span>
@@ -39,7 +44,7 @@ export default function LandingSuggestions({ onSelect }) {
             <button
               key={term}
               onClick={() => onSelect(term)}
-              className="px-4 py-1.5 border border-black rounded-md hover:bg-black hover:text-white transition-colors duration-200 text-sm"
+              className="px-4 py-1.5 border bg-white/85 border-black rounded-md hover:bg-black hover:text-white transition-colors duration-200 text-sm"
             >
               {term}
             </button>
