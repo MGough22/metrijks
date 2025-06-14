@@ -57,7 +57,7 @@ export default function SearchBar() {
         }
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="flex-1 min-w-0 px-4 py-2 rounded-full border border-black bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
+        className="flex-1 min-w-0 px-4 py-2 rounded-full border border-black bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black"
       />
 
       {!isOnExhibitionPage && (
