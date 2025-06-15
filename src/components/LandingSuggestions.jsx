@@ -25,7 +25,6 @@ export default function LandingSuggestions({ onSelect }) {
         style={{
           backgroundImage:
             "radial-gradient(ellipse at center, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.85) 40%, rgba(255,255,255,0) 100%)",
-          backdropFilter: "blur(800px)",
         }}
       >
         <h1 className="text-3xl font-semibold tracking-tight text-black">
