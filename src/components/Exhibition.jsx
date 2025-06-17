@@ -3,6 +3,7 @@ import { useSearchContext } from "../context/SearchContext";
 import { Link } from "react-router";
 import { useState, useMemo } from "react";
 import FilterPanel from "../components/FilterPanel";
+import { getRandomFallback } from "../utils/fallback";
 
 export const Exhibition = () => {
   const { collection, removeFromCollection } = useCollection();
@@ -67,6 +68,11 @@ export const Exhibition = () => {
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = getRandomFallback();
+                  }}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-2">
