@@ -65,13 +65,16 @@ export default function SearchBar() {
           {[
             { label: "MET", value: "met" },
             { label: "Rijks", value: "rijks" },
+            // { label: "V&A", value: null },
+            // { label: "Vatican", value: null },
+            // { label: "LOC", value: null },
           ].map(opt => {
             const isActive = searchSource === opt.value;
             return (
               <button
                 key={opt.value}
                 type="button"
-                onClick={() => setSearchSource(opt.value)}
+                onClick={() => opt.value !== null && setSearchSource(opt.value)}
                 className={`px-3 py-1 rounded-full text-sm border transition-colors duration-200 focus:outline-none
                   ${
                     isActive
