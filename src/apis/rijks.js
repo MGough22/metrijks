@@ -3,7 +3,6 @@ import axios from "axios";
 const rijksApi = axios.create({
   baseURL: "https://www.rijksmuseum.nl/api/en",
   params: {
-    // key: "CIA1zxU3",
     key: import.meta.env.VITE_RIJKS_KEY,
     format: "json",
   },

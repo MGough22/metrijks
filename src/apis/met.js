@@ -4,6 +4,9 @@ const metApi = axios.create({
   baseURL: "https://collectionapi.metmuseum.org/public/collection/v1",
 });
 
+const reservedLocator = objectId =>
+  `https://collectionapi.metmuseum.org/api/collection/v1/iiif/${objectId}/restricted`;
+
 export const getMetSearchResults = async (query, page = 1, pageSize = 20) => {
   const idRes = await metApi.get(`/search?hasImages=true&q=${query}`);
   const allIds = idRes.data.objectIDs || [];
@@ -20,17 +23,17 @@ export const getMetSearchResults = async (query, page = 1, pageSize = 20) => {
   const detailPromises = paginatedIds.map(id => metApi.get(`/objects/${id}`));
   const detailResults = await Promise.allSettled(detailPromises);
 
+  console.log("met detailResults: ", detailResults);
+
   const artworks = detailResults
-    .filter(
-      res => res.status === "fulfilled" && res.value?.data?.primaryImageSmall
-    )
+    .filter(res => res.status === "fulfilled" && res.value?.data)
     .map(res => {
       const data = res.value.data;
       return {
         id: data.objectID,
         title: data.title,
         artist: data.artistDisplayName || "Unknown",
-        image: data.primaryImageSmall,
+        image: data.primaryImageSmall || reservedLocator(data.objectID),
         source: "met",
         objectURL:
           data.objectURL ||
@@ -54,7 +57,11 @@ export const getMetObjectDetails = async id => {
     id: data.objectID,
     source: "met",
     title: data.title,
-    image: data.primaryImage || data.primaryImageSmall || "",
+    image:
+      data.primaryImage ||
+      data.primaryImageSmall ||
+      reservedLocator(data.objectID) ||
+      "",
     artistDisplayName: data.artistDisplayName || "Unknown",
     objectDate: data.objectDate,
     medium: data.medium,
