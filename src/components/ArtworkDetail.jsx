@@ -5,6 +5,7 @@ import { getRijksObjectDetails } from "../apis/rijks";
 import { useCollection } from "../hooks/useCollection";
 import { hatch } from "ldrs";
 import { getRandomFallback } from "../utils/fallback";
+import { useSearchContext } from "../context/SearchContext";
 
 hatch.register();
 
@@ -15,6 +16,7 @@ export const ArtworkDetail = () => {
   const [error, setError] = useState(null);
   const { addToCollection, collection } = useCollection();
   const navigate = useNavigate();
+  const { setSearchTerm, setSearchSource } = useSearchContext();
 
   useEffect(() => {
     const fetchArtwork = async () => {
@@ -37,6 +39,15 @@ export const ArtworkDetail = () => {
 
     fetchArtwork();
   }, [id, source]);
+
+  const handleArtistClick = () => {
+    const artist = artwork.artistDisplayName;
+    if (!artist || artist === "Unknown") return;
+
+    setSearchSource(source);
+    setSearchTerm(artist);
+    navigate("/");
+  };
 
   if (loading)
     return (
@@ -94,10 +105,19 @@ export const ArtworkDetail = () => {
         ) : (
           <p className="text-green-600 font-medium">✓ In your collection</p>
         )}
-
         <p>
           <strong>Artist:</strong>{" "}
-          {artwork.artistDisplayName || <span className="italic">Unknown</span>}
+          {artwork.artistDisplayName &&
+          artwork.artistDisplayName !== "Unknown" ? (
+            <button
+              onClick={handleArtistClick}
+              className="-ml-3 px-4 py-2 rounded-full inline-flex items-center gap-1 decoration-1 hover:bg-black hover:text-white transition-colors duration-200 hover:-ml-0"
+            >
+              {artwork.artistDisplayName} →
+            </button>
+          ) : (
+            <span className="italic">Unknown</span>
+          )}
         </p>
         {artwork.culture && (
           <p>
