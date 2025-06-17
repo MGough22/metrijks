@@ -2,43 +2,62 @@ import { useEffect, useState } from "react";
 
 export const LandscapeNotice = () => {
   const [show, setShow] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    const isLandscapeAndWideEnough = () =>
-      window.matchMedia("(orientation: landscape)").matches;
+    const isPortrait = () =>
+      window.matchMedia("(orientation: portrait)").matches;
 
-    if (
-      !isLandscapeAndWideEnough() &&
-      !sessionStorage.getItem("dismissedLandscapeHint")
-    ) {
-      setShow(true);
+    const alreadyDismissed = sessionStorage.getItem("dismissedLandscapeHint");
+
+    let showTimer, autoDismissTimer;
+
+    if (isPortrait() && !alreadyDismissed) {
+      showTimer = setTimeout(() => {
+        setShow(true);
+
+        autoDismissTimer = setTimeout(() => {
+          dismissWithFade();
+        }, 8000);
+      }, 2000);
     }
 
     const handleResize = () => {
-      if (isLandscapeAndWideEnough()) {
+      if (!isPortrait()) {
         setShow(false);
-      } else if (
-        !isLandscapeAndWideEnough() &&
-        !sessionStorage.getItem("dismissedLandscapeHint")
-      ) {
-        setShow(true);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(autoDismissTimer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const handleDismiss = () => {
-    setShow(false);
+  const dismissWithFade = () => {
+    setIsFadingOut(true);
     sessionStorage.setItem("dismissedLandscapeHint", "true");
+    setTimeout(() => setShow(false), 500);
+  };
+
+  const handleDismiss = () => {
+    dismissWithFade();
   };
 
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-neutral-900/65 text-white text-sm px-4 py-2 rounded-2xl shadow-xl z-50 animate-fade-in flex items-center space-x-3">
-      <span>Rotate your device for optimum viewing.</span>
+    <div
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 bg-neutral-900/75 text-white text-sm px-4 py-2 rounded-2xl shadow-xl z-50 max-w-xs w-fit text-center flex items-center space-x-3 transition-opacity duration-500 ${
+        isFadingOut
+          ? "opacity-0 animate-fade-out-slow"
+          : "opacity-100 animate-fade-in-slow"
+      }`}
+    >
+      <span>Try rotating your device to view more results at once.</span>
       <button
         onClick={handleDismiss}
         className="ml-2 px-2 text-white hover:text-gray-300 focus:outline-none"
