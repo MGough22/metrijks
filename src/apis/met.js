@@ -64,6 +64,7 @@ export const getMetObjectDetails = async id => {
       "",
     artistDisplayName: data.artistDisplayName || "Unknown",
     objectDate: data.objectDate,
+    culture: data.culture,
     medium: data.medium,
     dimensions: data.dimensions,
     creditLine: data.creditLine,

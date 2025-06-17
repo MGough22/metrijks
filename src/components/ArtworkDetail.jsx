@@ -14,6 +14,7 @@ export const ArtworkDetail = () => {
   const [error, setError] = useState(null);
   const { addToCollection, collection } = useCollection();
   const navigate = useNavigate();
+  const fallback = "https://www.freeiconspng.com/uploads/no-image-icon-6.png";
 
   useEffect(() => {
     const fetchArtwork = async () => {
@@ -59,6 +60,10 @@ export const ArtworkDetail = () => {
           src={artwork.image}
           alt={artwork.title}
           className="w-full max-h-[750px] object-contain border border-gray-200 opacity-0 animate-fade-in"
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = fallback;
+          }}
         />
         <button
           onClick={() => navigate(-1)}
@@ -93,6 +98,12 @@ export const ArtworkDetail = () => {
           <strong>Artist:</strong>{" "}
           {artwork.artistDisplayName || <span className="italic">Unknown</span>}
         </p>
+        {artwork.culture && (
+          <p>
+            <strong>Culture:</strong>{" "}
+            {artwork.culture || <span className="italic">Unknown</span>}
+          </p>
+        )}
         <p>
           <strong>Date:</strong>{" "}
           {artwork.objectDate || <span className="italic">Unspecified</span>}

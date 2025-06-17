@@ -21,7 +21,7 @@ export const getRijksSearchResults = async (query, page = 1, pageSize = 20) => {
   const artworks = response.data.artObjects.map(obj => ({
     id: obj.objectNumber,
     title: obj.title,
-    artist: obj.principalOrFirstMaker,
+    artist: obj.principalOrFirstMaker || obj.principalMaker,
     image: obj.webImage?.url || "",
     source: "rijks",
   }));
@@ -41,7 +41,8 @@ export const getRijksObjectDetails = async id => {
   return {
     id: data.objectNumber,
     title: data.title,
-    artist: data.principalOrFirstMaker,
+    artist: data.principalOrFirstMaker || obj.principalMaker,
+    artistDisplayName: data.principalOrFirstMaker || obj.principalMaker,
     image: data.webImage?.url || "",
 
     objectURL:
@@ -49,7 +50,7 @@ export const getRijksObjectDetails = async id => {
       `https://www.rijksmuseum.nl/en/collection/${id}`,
 
     source: "rijks",
-    date: data.dating?.presentingDate || "Unknown",
+    objectDate: data.dating?.presentingDate || "Unknown",
     medium: data.materials?.join(", ") || "Unknown",
     dimensions:
       data.dimensions?.map(d => `${d.value} ${d.unit}`).join(", ") || "Unknown",
