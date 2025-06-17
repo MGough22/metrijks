@@ -4,6 +4,7 @@ import { getMetObjectDetails } from "../apis/met";
 import { getRijksObjectDetails } from "../apis/rijks";
 import { useCollection } from "../hooks/useCollection";
 import { hatch } from "ldrs";
+import { getRandomFallback } from "../utils/fallback";
 
 hatch.register();
 
@@ -14,7 +15,6 @@ export const ArtworkDetail = () => {
   const [error, setError] = useState(null);
   const { addToCollection, collection } = useCollection();
   const navigate = useNavigate();
-  const fallback = "https://www.freeiconspng.com/uploads/no-image-icon-6.png";
 
   useEffect(() => {
     const fetchArtwork = async () => {
@@ -60,9 +60,10 @@ export const ArtworkDetail = () => {
           src={artwork.image}
           alt={artwork.title}
           className="w-full max-h-[750px] object-contain border border-gray-200 opacity-0 animate-fade-in"
+          loading="lazy"
           onError={e => {
             e.target.onerror = null;
-            e.target.src = fallback;
+            e.target.src = getRandomFallback();
           }}
         />
         <button
