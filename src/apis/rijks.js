@@ -1,12 +1,15 @@
 import axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
 
-const rijksApi = axios.create({
-  baseURL: "https://www.rijksmuseum.nl/api/en",
-  params: {
-    key: import.meta.env.VITE_RIJKS_KEY,
-    format: "json",
-  },
-});
+export const rijksApi = setupCache(
+  axios.create({
+    baseURL: "https://www.rijksmuseum.nl/api/en",
+    params: {
+      key: import.meta.env.VITE_RIJKS_KEY,
+      format: "json",
+    },
+  })
+);
 
 export const getRijksSearchResults = async (query, page = 1, pageSize = 20) => {
   const response = await rijksApi.get("/collection", {
