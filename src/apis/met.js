@@ -1,8 +1,11 @@
 import axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
 
-const metApi = axios.create({
-  baseURL: "https://collectionapi.metmuseum.org/public/collection/v1",
-});
+export const metApi = setupCache(
+  axios.create({
+    baseURL: "https://collectionapi.metmuseum.org/public/collection/v1",
+  })
+);
 
 const reservedLocator = objectId =>
   `https://collectionapi.metmuseum.org/api/collection/v1/iiif/${objectId}/restricted`;
