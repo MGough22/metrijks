@@ -4,6 +4,7 @@ import { useSearchContext } from "../context/SearchContext";
 export const Header = () => {
   const location = useLocation();
   const isActive = path => location.pathname === path;
+  const containsPath = path => location.pathname.includes(path);
   const { setSearchTerm } = useSearchContext();
 
   return (
@@ -26,7 +27,9 @@ export const Header = () => {
             <Link
               to="/"
               className={`hover:text-black transition-colors ${
-                isActive("/") ? "underline underline-offset-4" : ""
+                isActive("/") || containsPath("/artworks/")
+                  ? "underline underline-offset-4"
+                  : ""
               }`}
             >
               Search APIs
